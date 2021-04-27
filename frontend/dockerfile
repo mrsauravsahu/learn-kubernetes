@@ -1,0 +1,21 @@
+FROM node:14.16.1-alpine as build
+
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm i
+
+COPY . .
+
+RUN npm run bundle
+
+FROM node:14.16.1-alpine as runtime
+
+RUN npm i -g http-server
+
+COPY --from=build /app/esbuild-bundle .
+
+EXPOSE 80
+
+CMD http-server . --gzip --port 80
