@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    type: frontend
+  namespace: learn-kubernetes
+  name: frontend
+
+spec:
+  containers:
+    - name: frontend
+      image: localhost:32000/frontend
+      resources:
+        requests:
+          memory: 128Mi
+          cpu: 500m
+        limits:
+          memory: 256Mi
+          cpu: 500m
