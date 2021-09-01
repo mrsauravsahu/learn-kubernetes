@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    type: backend
+  name: api
+  namespace: learn-kubernetes
+
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    type: backend
+  type: NodePort
