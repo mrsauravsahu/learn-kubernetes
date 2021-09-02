@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    type: backend
+  name: api
+  namespace: learn-kubernetes
+
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    type: backend
+  type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: api
+  labels:
+    type: backend
+  namespace: learn-kubernetes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: backend
+  template:
+    metadata:
+      labels:
+        type: backend
+      name: api
+      namespace: learn-kubernetes
+
+    spec:
+      containers:
+        - name: api
+          image: learn-kubernetes/api:0.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 500m
+            limits:
+              memory: 512Mi
+              cpu: 500m
+          env:
+            - name: PORT
+              value: "8080"
