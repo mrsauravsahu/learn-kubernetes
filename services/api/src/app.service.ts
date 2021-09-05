@@ -5,7 +5,7 @@ import { AppInfo } from './types';
 export class AppService {
   getInfo(): AppInfo {
     const {
-      API_SERVICE_NAME: name = 'Gateway Service',
+      API_SERVICE_NAME: name = 'API Service',
       API_SERVICE_VERSION: version,
     } = process.env;
     return {
