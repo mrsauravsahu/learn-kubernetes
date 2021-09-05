@@ -6,20 +6,46 @@ This is a sample app I'm using to learn K8S. Currently has an api service & a fr
 
 You'll need to have [please.build](https://please.build/) installed.
 
-## macOS
+---
+
+## platforms
+
+### macOS
 I use [Docker Desktop](https://docs.docker.com/desktop/mac/install/) to run the app locally.
 
-## inject secrets
+### linux
+
+I use [MicroK8S](https://microk8s.io/) to run the app on Linux.
+
+You'll need to install it and also enable the built-in registry to run the app, which can be done with `microk8s enable registry`
+
+---
+
+### inject secrets
 ```bash
 . ./template.envrc
 ```
 
-## create services
+### create services
 to deploy the app, create the services
 
 ```bash
 plz build //services/...
 plz run parallel //services/api //services/documentation
+```
+
+### [extra step for linux] push images to docker registry
+Because the images need to be on the microk8s docker registry for this to work, we need to push the images manually. (need to try and automate this later)
+```
+plz run parallel //services/api //services/documentation
+# these will give you the image and tags
+
+# push it to docker registry
+docker push <image:tag>
+
+# -- example
+
+docker push localhost:32000/api:913bc3ac76b63d49e54292ddadaef8da7520a828776755ba199b3b9159315d20
 ```
 
 ### deploy to kubernetes
@@ -37,12 +63,19 @@ kubectl delete -f .cicd
 ```
 
 ### access the documentation site
+
+#### on macos
+
 use this command to forward the port from the documentation service
 ```bash
 kubectl port-forward service/documentation-svc -n $K8S_NAMESPACE 3000:80
 ```
-
 you can navigate to `http://localhost:8080`
 
-## linux
-I'll update this section to run the app in [MicroK8S](https://microk8s.io/).
+#### on linux
+with microk8s on Linux, the services will directly be available on the NodePort so, no need to use port-forward.
+
+You can get the port with 
+```
+kubectl -n learn-kubernetes describe svc/documentation-svc | grep NodePort
+```
