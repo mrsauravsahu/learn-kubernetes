@@ -1,0 +1,11 @@
+subinclude("///pleasings//k8s")
+
+k8s_config(
+    name = "k8s",
+    srcs = [
+      "namespace.yaml",
+      "service.yaml",
+      "deployment.yaml",
+    ],
+    containers = ["//services/api"],
+)
