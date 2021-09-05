@@ -1,6 +1,6 @@
 <script context="module">
 	export async function preload() {
-		const services = ['http://api.learn-kubernetes'];
+		const services = ['http://api-svc.learn-kubernetes'];
 
 		const requestPromises = services.map(
 			(serviceUrl) =>
