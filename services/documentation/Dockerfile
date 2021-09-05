@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY static /app/static
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm i --prod
 
