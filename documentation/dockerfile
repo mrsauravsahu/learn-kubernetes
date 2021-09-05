@@ -1,0 +1,23 @@
+FROM node:14.16.1-alpine as build
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm i
+
+COPY . .
+
+RUN npm run bundle
+
+FROM abhin4v/hastatic:latest as runtime
+
+WORKDIR /app
+
+COPY --from=build /app/esbuild-bundle .
+
+ENV PORT=80
+
+EXPOSE 80
+
+CMD ["/usr/bin/hastatic"]
