@@ -10,7 +10,6 @@ docker_image(
 k8s_config(
     name = "k8s",
     srcs = [
-      "namespace.yaml",
       "service.yaml",
       "deployment.yaml",
     ],
