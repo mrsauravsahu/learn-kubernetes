@@ -1,36 +1,48 @@
 # learn-kubernetes
 
-this is a sample app I'm using to learn K8S. 
+This is a sample app I'm using to learn K8S. Currently has an api service & a frontend app which uses SSR.
 
-Currently has a gateway service. The frontend app needs to be updated to be SSR.
+## deps
+
+You'll need to have [please.build](https://please.build/) installed.
 
 ## macOS
-I use [Rancher Desktop](https://github.com/rancher-sandbox/rancher-desktop) to run the app locally.
+I use [Docker Desktop](https://docs.docker.com/desktop/mac/install/) to run the app locally.
 
 ## inject secrets
 ```bash
 . ./template.envrc
 ```
+
 ## create services
-to deploy the app, create the service
+to deploy the app, create the services
 
 ```bash
-for i in `ls -1 services`; do kim build -t $K8S_NAMESPACE/$i:0.0.1 -f services/$i/dockerfile services/$i; done
+plz build //services/...
+plz run parallel //services/api //services/documentation
 ```
 
 ### deploy to kubernetes
 ```
-kubectl apply -f ./.cicd -f services/api/.cicd -f services/documentation/.cicd 
+kubectl apply -f ./.cicd # --> creates the kubernetes namespace
+
+plz run parallel //services/api/k8s:k8s_push //services/documentation/k8s:k8s_push
+```
+
+### cleanup
+```
+plz run parallel //services/api/k8s:k8s_cleanup //services/documentation/k8s:k8s_cleanup
+
+kubectl delete -f .cicd
 ```
 
 ### access the documentation site
-use this command to get the port for documentation site.
+use this command to forward the port from the documentation service
 ```bash
-kubectl describe service/documentation -n $K8S_NAMESPACE | grep NodePort:
-# NodePort:                 <unset>  30813/TCP
+kubectl port-forward service/documentation-svc -n $K8S_NAMESPACE 3000:80
 ```
 
-you can navigate to `http://localhost:<PORT>`
+you can navigate to `http://localhost:8080`
 
 ## linux
 I'll update this section to run the app in [MicroK8S](https://microk8s.io/).
