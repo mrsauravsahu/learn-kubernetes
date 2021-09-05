@@ -10,3 +10,6 @@
 
 [python]
 moduledir = third_party.python
+
+[buildconfig]
+default-docker-repo = learn-kubernetes
