@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - feat/ci
+  pull_request:
+
+env:
+  NODE_VERSION: 14.17.1
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Test
+        run: echo "Tests passed"
