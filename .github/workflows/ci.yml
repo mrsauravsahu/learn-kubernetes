@@ -23,5 +23,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Test
-        run: ./pleasew build //...
+      - name: Set up Please
+        uses: sagikazarmark/setup-please-action@v0
+
+      - name: Build Services
+        run: plz build //...
