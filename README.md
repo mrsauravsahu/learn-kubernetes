@@ -37,15 +37,7 @@ plz run parallel //services/api //services/documentation
 ### [extra step for linux] push images to docker registry
 Because the images need to be on the microk8s docker registry for this to work, we need to push the images manually. (need to try and automate this later)
 ```
-plz run parallel //services/api //services/documentation
-# these will give you the image and tags
-
-# push it to docker registry
-docker push <image:tag>
-
-# -- example
-
-docker push localhost:32000/api:913bc3ac76b63d49e54292ddadaef8da7520a828776755ba199b3b9159315d20
+plz run parallel //services/api:api_push //services/documentation:documentation_push
 ```
 
 ### deploy to kubernetes
