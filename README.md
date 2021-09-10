@@ -1,6 +1,6 @@
-# learn-kubernetes
+# template-monorepo
 
-This is a sample app I'm using to learn K8S. Currently has an api service & a frontend app which uses SSR.
+This is how I'd organize a cross-language monorepo which handles all CI/CD concerns and enables developers to focus on the business solution. This currently has an api service (nestjs on node) & a frontend app (svelte + sapper) which uses SSR.
 
 ## deps
 
