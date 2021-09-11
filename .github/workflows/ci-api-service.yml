@@ -4,9 +4,13 @@ on:
   pull_request:
     branches:
       - cool
+    paths:
+      - 'common/**'
+      - 'services/api/**'
 
 env:
-  NODE_VERSION: 14.17.1
+  NODE_VERSION: 14.17.6
+  SERVICE: api
 
 jobs:
   test:
@@ -26,4 +30,4 @@ jobs:
         uses: sagikazarmark/setup-please-action@v0
 
       - name: Build Services
-        run: plz build //...
+        run: plz build //services/$SERVICE && plz run //services/$SERVICE
