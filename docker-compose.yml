@@ -1,0 +1,26 @@
+version: '3.8'
+
+services: 
+  api:
+    build: 
+      context: .
+      dockerfile: common/docker/base-node.dockerfile
+    volumes: 
+      - '.:/app'
+    entrypoint: 'sh -c "npm --prefix services/api install && npm --prefix services/api run start:dev"'
+    ports: 
+      - 8080:80
+
+  documentation:
+    build: 
+      context: .
+      dockerfile: common/docker/base-node.dockerfile
+    volumes: 
+      - '.:/app'
+    environment: 
+      PORT: 80
+      API_SERVICE_HOST: api
+      API_SERVICE_PORT: 80
+    entrypoint: 'sh -c "npm --prefix services/documentation install && npm --prefix services/documentation run dev"'
+    ports: 
+      - 3000:80
