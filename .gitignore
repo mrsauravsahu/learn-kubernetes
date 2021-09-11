@@ -10,3 +10,7 @@ playground
 
 bin
 obj
+
+node_modules
+
+dist
