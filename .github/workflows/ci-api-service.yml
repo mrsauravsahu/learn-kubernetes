@@ -5,6 +5,7 @@ on:
     branches:
       - cool
     paths:
+      - '.github/workflows/ci-api-service.yml'
       - 'common/**'
       - 'services/api/**'
 
