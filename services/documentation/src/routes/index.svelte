@@ -1,6 +1,6 @@
 <script context="module">
 	export async function preload() {
-		const services = [process.env.API_SERVICE]
+		const services = [`http://${process.env.API_SERVICE_HOST}:${process.env.API_SERVICE_PORT}/`]
 		const requestPromises = services.map(
 			(serviceUrl) =>
 				new Promise(async (resolve) => {
