@@ -1,19 +1,34 @@
 <script context="module">
 	export async function preload() {
-		const services = [`http://${process.env.API_SERVICE_HOST}:${process.env.API_SERVICE_PORT}/`]
+		const services = [
+			`http://${process.env.API_SERVICE_HOST}:${process.env.API_SERVICE_PORT}/`,
+			`http://${process.env.PARSER_SERVICE_HOST}:${process.env.PARSER_SERVICE_PORT}/`
+		]
+
 		const requestPromises = services.map(
 			(serviceUrl) =>
 				new Promise(async (resolve) => {
-					const response = await this.fetch(serviceUrl);
-					const responseJson = await response.json();
+					let connection = true;
+					let responseJson = {};
+
+					try {
+						const response = await this.fetch(serviceUrl);
+						responseJson = await response.json();
+					}
+					catch(error) {
+						connection = false;
+					}
+
 					resolve({
-						code: response.status,
+						serviceUrl,
+						connection,
 						body: responseJson,
 					});
 				})
 		);
 
-		return { serviceData: await Promise.allSettled(requestPromises) };
+				const serviceData = await Promise.allSettled(requestPromises);
+				return {serviceData};
 	}
 </script>
 
@@ -21,14 +36,22 @@
 	export let serviceData;
 </script>
 
-<h1>Learning Kubernetes</h1>
+<h1>Template Monorepo</h1>
 
-<h2>Connected Services</h2>
+<hr />
+<h2>Services</h2>
 <ul>
 	{#each serviceData as service}
 		<li>
-			<div>{service.value.body.name}</div>
-			<div>Status: {service.value.code}</div>
+			<div class="service-url">{service.value.serviceUrl}</div>
+			<div>Connection: {service.value.connection ? "Alive": "Could not establish"}</div>
+			<div>Reported Service Name: {service.value.body.name ?? "Unknown"}</div>
 		</li>
 	{/each}
 </ul>
+
+<style>
+	.service-url {
+		font-weight: bold;
+	}
+</style>
