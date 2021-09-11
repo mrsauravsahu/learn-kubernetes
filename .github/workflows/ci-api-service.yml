@@ -27,5 +27,5 @@ jobs:
 
       - uses: sagikazarmark/setup-please-action@v0
 
-      - name: Build $SERVICE Service
+      - name: Build Service
         run: plz build //services/$SERVICE && plz run //services/$SERVICE
