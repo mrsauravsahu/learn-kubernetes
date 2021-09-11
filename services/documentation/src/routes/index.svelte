@@ -1,13 +1,11 @@
 <script context="module">
 	export async function preload() {
-		const services = ['http://api-svc.learn-kubernetes'];
-
+		const services = [process.env.API_SERVICE]
 		const requestPromises = services.map(
 			(serviceUrl) =>
 				new Promise(async (resolve) => {
 					const response = await this.fetch(serviceUrl);
 					const responseJson = await response.json();
-					console.log(responseJson);
 					resolve({
 						code: response.status,
 						body: responseJson,
