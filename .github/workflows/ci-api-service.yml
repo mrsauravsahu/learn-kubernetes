@@ -1,0 +1,31 @@
+name: ci-api-service
+
+on:
+  pull_request:
+    branches:
+      - cool
+    paths:
+      - '.github/workflows/ci-api-service.yml'
+      - 'common/**'
+      - 'services/api/**'
+
+env:
+  NODE_VERSION: 14.17.6
+  SERVICE: api
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: sagikazarmark/setup-please-action@v0
+
+      - name: Build Service
+        run: plz build //services/$SERVICE && plz run //services/$SERVICE
