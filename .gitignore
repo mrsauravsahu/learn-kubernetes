@@ -7,3 +7,6 @@ plz-out
 __pycache__
 
 playground
+
+bin
+obj
