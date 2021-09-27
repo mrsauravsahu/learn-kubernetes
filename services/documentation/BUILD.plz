@@ -1,3 +1,4 @@
+subinclude("//build/defs:service_version")
 subinclude("///pleasings//docker")
 
 docker_image(
@@ -5,4 +6,10 @@ docker_image(
   srcs = glob(["*"], ["node_modules", "dist"]),
   dockerfile = "Dockerfile",
   visibility = ["//services/documentation/..."]
+)
+
+service_version(
+  name = "version",
+  service = "documentation",
+  srcs = glob(["git-version.yml"]) + [ "//:git"],
 )
