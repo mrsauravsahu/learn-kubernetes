@@ -1,0 +1,8 @@
+def service_version(name: str, service: str, srcs: list) -> str:
+  return genrule(
+    name = name,
+    srcs = srcs,
+    deps = [],
+    outs = ["VERSION"],
+    cmd = f"docker run --rm --volume $PWD:/repo gittools/gitversion /repo -config ./services/{service}/git-version.yml -output json -showvariable MajorMinorPatch > $OUT"
+  )

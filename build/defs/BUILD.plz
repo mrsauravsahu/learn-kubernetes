@@ -1,0 +1,5 @@
+filegroup(
+    name = "service_version",
+    srcs = ["service_version.build_defs"],
+    visibility = ["PUBLIC"],
+)
