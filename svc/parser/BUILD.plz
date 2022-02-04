@@ -4,5 +4,5 @@ docker_image(
     name="parser",
     srcs = glob(["*"], ["bin", "obj", "dist"]),
     dockerfile = "Dockerfile",
-    visibility = ["//services/parser/..."]
+    visibility = ["//svc/parser/..."]
 )

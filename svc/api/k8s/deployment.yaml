@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: main
-          image: //services/api:api
+          image: //svc/api:api
           imagePullPolicy: IfNotPresent
           resources:
             limits:

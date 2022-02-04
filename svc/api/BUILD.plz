@@ -4,5 +4,5 @@ docker_image(
   name = "api",
   srcs = glob(["*"], ["node_modules", "dist"]),
   dockerfile = "Dockerfile",
-  visibility = ["//services/api/..."]
+  visibility = ["//svc/api/..."]
 )
