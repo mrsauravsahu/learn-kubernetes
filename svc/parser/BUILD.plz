@@ -12,3 +12,7 @@ sh_cmd(
   cmd = "echo todo"
 )
 
+sh_cmd(
+  name = "test",
+  cmd = "echo todo"
+)

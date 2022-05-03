@@ -11,3 +11,8 @@ sh_cmd(
   name = "lint",
   cmd = "echo todo"
 )
+
+sh_cmd(
+  name = "test",
+  cmd = "echo todo"
+)
