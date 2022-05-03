@@ -14,20 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout to head branch for PR
+      - name: Checkout to head branch for PR
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: setup please.build
+      - name: Setup please.build
         uses: sagikazarmark/setup-please-action@v0
 
-      - name: check targets
+      - name: Check targets
         id: check_targets
         run: |
           BUILD_TARGETS=$(for i in `ls -1 svc`; do echo -n "(//svc/$i)|"; done | sed 's/|$//')
@@ -40,17 +35,17 @@ jobs:
           echo "::set-output name=SERVICES::$SERVICES"
           echo "::set-output name=SERVICES_SINGLE_LINE::$SERVICES_SINGLE_LINE"
 
-      - name: lint targets
+      - name: Lint targets
         if: steps.check_targets.outputs.SERVICES != ''
         run: |
           # TODO: figure out how to pass different env for different targets
           plz run parallel `echo ${{ steps.check_targets.outputs.SERVICES_SINGLE_LINE }} | sed 's|//svc/[a-z]*|&:lint|g'`
 
-      - name: run tests
+      - name: Run tests
         if: steps.check_targets.outputs.SERVICES_SINGLE_LINE != ''
         run: plz test `echo ${{ steps.check_targets.outputs.SERVICES_SINGLE_LINE }} | sed 's|//svc/[a-z]*|&:test|g'`
 
-      - name: build targets
+      - name: Build targets
         if: steps.check_targets.outputs.SERVICES != ''
         run: |
           plz run parallel ${{ steps.check_targets.outputs.SERVICES_SINGLE_LINE }}
