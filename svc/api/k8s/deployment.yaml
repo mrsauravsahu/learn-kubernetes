@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: learn-kubernetes
-  name: parser
+  name: api
   labels:
-    app: parser
+    app: api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: parser
+      app: api
   template:
     metadata:
       labels:
-        app: parser
+        app: api
     spec:
       containers:
         - name: main
-          image: //services/parser:parser
+          image: //svc/api:api
           imagePullPolicy: IfNotPresent
           resources:
             limits:

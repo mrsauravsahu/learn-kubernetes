@@ -30,26 +30,26 @@ You'll need to install it and also enable the built-in registry to run the app, 
 to deploy the app, create the services
 
 ```bash
-plz build //services/...
-plz run parallel //services/api //services/documentation
+plz build //svc/...
+plz run parallel //svc/api //svc/documentation
 ```
 
 ### [extra step for linux] push images to docker registry
 Because the images need to be on the microk8s docker registry for this to work, we need to push the images manually. (need to try and automate this later)
 ```
-plz run parallel //services/api:api_push //services/documentation:documentation_push
+plz run parallel //svc/api:api_push //svc/documentation:documentation_push
 ```
 
 ### deploy to kubernetes
 ```
 kubectl apply -f ./.cicd # --> creates the kubernetes namespace
 
-plz run parallel //services/api/k8s:k8s_push //services/documentation/k8s:k8s_push
+plz run parallel //svc/api/k8s:k8s_push //svc/documentation/k8s:k8s_push
 ```
 
 ### cleanup
 ```
-plz run parallel //services/api/k8s:k8s_cleanup //services/documentation/k8s:k8s_cleanup
+plz run parallel //svc/api/k8s:k8s_cleanup //svc/documentation/k8s:k8s_cleanup
 
 kubectl delete -f .cicd
 ```

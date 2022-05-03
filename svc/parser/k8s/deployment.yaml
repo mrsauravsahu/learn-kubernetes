@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: learn-kubernetes
-  name: documentation
+  name: parser
   labels:
-    app: documentation
+    app: parser
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: documentation
+      app: parser
   template:
     metadata:
       labels:
-        app: documentation
+        app: parser
     spec:
       containers:
         - name: main
-          image: //services/documentation:documentation
+          image: //svc/parser:parser
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -27,7 +27,4 @@ spec:
               cpu: 250m
               memory: 128Mi
           ports:
-            - containerPort: 3000
-          env:
-          - name: PORT
-            value: "3000"
+            - containerPort: 80
