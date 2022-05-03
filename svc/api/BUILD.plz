@@ -6,3 +6,8 @@ docker_image(
   dockerfile = "Dockerfile",
   visibility = ["//svc/api/..."]
 )
+
+sh_cmd(
+  name = "lint",
+  cmd = "echo todo"
+)

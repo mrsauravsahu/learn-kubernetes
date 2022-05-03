@@ -6,3 +6,9 @@ docker_image(
     dockerfile = "Dockerfile",
     visibility = ["//svc/parser/..."]
 )
+
+sh_cmd(
+  name = "lint",
+  cmd = "echo todo"
+)
+
