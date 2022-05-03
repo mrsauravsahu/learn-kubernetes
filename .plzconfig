@@ -8,9 +8,6 @@
 ; [please]
 ; version = 16.1.0
 
-[python]
-moduledir = third_party.python
-
 [buildconfig]
 default-docker-repo = learn-kubernetes
 
