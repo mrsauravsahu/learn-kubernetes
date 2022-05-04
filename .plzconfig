@@ -9,7 +9,7 @@
 ; version = 16.1.0
 
 [buildconfig]
-default-docker-repo = learn-kubernetes
+default-docker-repo = template-monorepo
 
 [build]
 passenv = PROJECT;NODE_VERSION
