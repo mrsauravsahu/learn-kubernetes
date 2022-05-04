@@ -1,6 +1,6 @@
 # template-monorepo
 
-This is how I'd organize a cross-language monorepo which handles all CI/CD concerns and enables developers to focus on the business solution. This currently has an api service (nestjs on node) & a frontend app (svelte + sapper) which uses SSR.
+This is a project to demonstrate tools which can be used to manage a monorepo.
 
 ## deps
 
@@ -11,10 +11,9 @@ You'll need to have [please.build](https://please.build/) installed.
 ## platforms
 
 ### macOS
-I use [Docker Desktop](https://docs.docker.com/desktop/mac/install/) to run the app locally.
+I use [colima](https://github.com/abiosoft/colima) to run the app locally.
 
-### linux
-
+### linux [WIP]
 I use [MicroK8S](https://microk8s.io/) to run the app on Linux.
 
 You'll need to install it and also enable the built-in registry to run the app, which can be done with `microk8s enable registry`
@@ -42,16 +41,18 @@ plz run parallel //svc/api:api_push //svc/documentation:documentation_push
 
 ### deploy to kubernetes
 ```
-kubectl apply -f ./.cicd # --> creates the kubernetes namespace
+# create the k8s namespace
+kubectl create namespace template-monorepo
 
-plz run parallel //svc/api/k8s:k8s_push //svc/documentation/k8s:k8s_push
+plz run parallel //svc/api/k8s:k8s_push //svc/parser/k8s:k8s_push
+plz run //svc/documentation/k8s:k8s_push
 ```
 
 ### cleanup
 ```
 plz run parallel //svc/api/k8s:k8s_cleanup //svc/documentation/k8s:k8s_cleanup
 
-kubectl delete -f .cicd
+kubectl delete namespace template-monorepo
 ```
 
 ### access the documentation site
@@ -60,14 +61,14 @@ kubectl delete -f .cicd
 
 use this command to forward the port from the documentation service
 ```bash
-kubectl port-forward service/documentation-svc -n $K8S_NAMESPACE 3000:80
+kubectl port-forward service/documentation -n $K8S_NAMESPACE 3000:80
 ```
-you can navigate to `http://localhost:8080`
+you can navigate to `http://localhost:3000`
 
 #### on linux
 with microk8s on Linux, the services will directly be available on the NodePort so, no need to use port-forward.
 
 You can get the port with 
 ```
-kubectl -n learn-kubernetes describe svc/documentation-svc | grep NodePort
+kubectl -n template-monorepo describe svc/documentation-svc | grep NodePort
 ```
